@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import logoUrl from './logo-jajandulu.webp'
-import { continueRender, delayRender, staticFile } from 'remotion'
+import { continueRender, delayRender } from 'remotion'
 
 function kanvas(w: number, h: number) {
   const c = document.createElement('canvas')
@@ -85,16 +85,23 @@ export function tinggiFlanel() {
 
 export function teksturKlepon() {
   return simpan('klepon-fiber', () => {
-    const handle = delayRender('Klepon fabric texture')
-    const t = new THREE.TextureLoader().load(
-      staticFile('jajan/klepon-fiber.png'),
-      () => {
-        t.needsUpdate = true
-        window.setTimeout(() => continueRender(handle), 300)
-      },
-      undefined,
-      () => continueRender(handle),
-    )
+    const [c, g] = kanvas(512, 512)
+    const r = rng(31)
+    g.fillStyle = '#77A84E'
+    g.fillRect(0, 0, 512, 512)
+    for (let i = 0; i < 18000; i++) {
+      const x = r() * 512
+      const y = r() * 512
+      const a = r() * Math.PI
+      const l = 2 + r() * 8
+      g.strokeStyle = r() > 0.48 ? `rgba(226,241,191,${0.08 + r() * 0.16})` : `rgba(35,70,24,${0.06 + r() * 0.14})`
+      g.lineWidth = 0.5 + r()
+      g.beginPath()
+      g.moveTo(x, y)
+      g.lineTo(x + Math.cos(a) * l, y + Math.sin(a) * l)
+      g.stroke()
+    }
+    const t = new THREE.CanvasTexture(c)
     t.wrapS = t.wrapT = THREE.RepeatWrapping
     t.repeat.set(2, 2)
     t.colorSpace = THREE.SRGBColorSpace
