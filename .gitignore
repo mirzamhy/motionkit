@@ -1,6 +1,8 @@
 node_modules/
 projects/
 out/
+references/
+legacy-worktrees/
 output/
 tmp/
 .worktrees/
