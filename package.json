@@ -1,0 +1,42 @@
+{
+  "name": "motionkit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Scene-first filmmaking with Remotion and a reusable visual asset library.",
+  "author": "Mirza Muhyidin <mirzamuhyidin.id@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "mk": "bin/mk.mjs"
+  },
+  "scripts": {
+    "mk": "node bin/mk.mjs",
+    "studio": "remotion studio packages/core/src/index.ts",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^9.8.2",
+    "@react-three/postprocessing": "^3.2.0",
+    "@remotion/bundler": "4.0.473",
+    "@remotion/cli": "4.0.473",
+    "@remotion/google-fonts": "4.0.473",
+    "@remotion/renderer": "4.0.473",
+    "@remotion/three": "4.0.473",
+    "postprocessing": "^6.39.5",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.473",
+    "three": "^0.186.1",
+    "tsx": "^4.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/three": "^0.186.0",
+    "gltf-validator": "2.0.0-dev.3.10",
+    "typescript": "5.9.3"
+  }
+}
