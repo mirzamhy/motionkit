@@ -5,6 +5,10 @@ description: "Use when creating or revising any video in the MotionKit repositor
 
 # MotionKit
 
+**MotionKit · © 2026 Mirza Muhyidin · [@mirzamhy](https://github.com/mirzamhy)**
+
+Identitas ini adalah watermark/kredit pada dokumen skill. Ini bukan instruksi untuk menambahkan watermark ke video.
+
 MotionKit mengubah brief menjadi film melalui riset, treatment, storyboard, pustaka aset, dan pemeriksaan visual. Agen membangun shot dalam React, SVG, atau Three.js; Remotion menghitung frame dan merender film. Aset dan pelajaran dari film selesai menjadi bekal film berikutnya.
 
 ## 0. Buka repo dan gunakan scene mode
@@ -29,6 +33,18 @@ node bin/mk.mjs scene list
 
 MotionKit lokal tidak memerlukan API berbayar tambahan, `mk init`, atau perubahan `.env`. Jangan meminta API key
 untuk alur video biasa dan jangan mencetak rahasia ke log.
+
+### Peta pekerjaan
+
+| Permintaan | Mulai dari | Hasil yang diperiksa |
+|---|---|---|
+| Video baru | Brief, `film list`, `storyboard`, sumber fakta dan visual | Treatment, naskah, proof shot, still tiap shot, MP4 |
+| Revisi video | Scene yang terdaftar, frame/shot bermasalah, file proyek | Stills sebelum/sesudah dan render bagian terdampak |
+| Aset reusable | `gaya show`, `aset find`, `item find`, `ITEMS.md` | Preview aset, metadata, `PETA.md` |
+| Audio saja | Manifest, VO/SFX di `projects/<slug>/public/` | `vo-cut`, cue, dan `scene audio` pada MP4 yang sudah ada |
+| Audit kualitas | `gate --no-render`, sheet/grid, video akhir | Masalah spesifik dengan file dan frame |
+
+CLI menyiapkan draf, pustaka, preview, dan render; ia tidak menulis cerita lengkap secara otomatis. Jangan mengaku film sudah selesai ketika yang tersedia baru treatment atau still.
 
 ## 1. Brief, fakta, referensi
 
@@ -57,6 +73,20 @@ node bin/mk.mjs storyboard "ojol bertemu penjual kopi saat hujan" --format 9:16 
 ```
 
 `storyboard` membuat draf `projects/<slug>/treatment.md` berdasarkan cakupan aset dan catatan film. Pilihan gaya, kamera, ritme, dan pembagian shot berbasis aturan, tanpa panggilan LLM. Gunakan `--gaya <slug>` untuk gaya yang telah dipilih. Perintah menolak menimpa treatment kecuali diberi `--timpa`; lindungi revisi pengguna.
+
+Urutan artefak proyek:
+
+```text
+projects/<slug>/
+  facts.md       fakta, sumber, tanggal akses
+  refs.md        catatan visual dan bagian rekaan
+  refs/          foto acuan lokal
+  treatment.md   kerangka dan blok shot yang telah direvisi
+  script.md      narasi final dan penanda waktu
+  public/        VO, musik, model, tekstur yang dibaca render
+```
+
+Folder `projects/` diabaikan Git. Jika sebuah scene di GitHub membutuhkan media proyek privat, jelaskan bahwa clone baru memerlukan media itu untuk menghasilkan render yang sama.
 
 Lengkapi semua penanda `ISI`. Draf bukan keputusan dan tidak menggantikan penulisan cerita. Gunakan struktur `docs/scenes/TREATMENT.md`: brief → kerangka → blok tiap shot. Untuk brief terbuka, tawarkan dua atau tiga treatment sesuai WORKFLOW sebelum menulis penuh.
 
@@ -92,6 +122,8 @@ node bin/mk.mjs item preview benda-baru-stik
 `aset prompt` mencetak prompt target `kode`, `gambar`, atau `3d`; perintah ini tidak memanggil model atau menghasilkan GLB sendiri. Nama aset `<benda>-<gaya>`. Isi metadata, ukuran, varian, sumber, lisensi, dan bagian rekaan. Buka preview, bandingkan referensi, perbaiki, lalu preview ulang.
 
 Film memakai `<Aset>` atau `<Aset3D>` dari `packages/core/src/library/aset.tsx`. Kontrak di `library/types.ts`: 2D di dalam SVG, x/y titik menyentuh tanah dan s pixel per meter; 3D di dalam ThreeCanvas, meter, origin tengah alas, +Y ke atas. Waktu aset `t` memakai frame berbasis 30 fps; konversi bila fps komposisi berbeda. Id tidak terdaftar atau dimensi salah membuat render gagal.
+
+Peta gaya di `docs/aset/PETA.md` dibangkitkan dari metadata pustaka. Satu benda bisa tersedia di beberapa gaya; periksa `refs.md`, ukuran, varian, dan preview gaya yang benar.
 
 ```bash
 node bin/mk.mjs aset peta
@@ -129,9 +161,13 @@ Contoh: `PizzaScene.tsx` untuk scene pendek dan framing portrait; `UnairFilm.tsx
 - Bangun orang dengan skeleton dan IK sesuai kontak tangan/kaki; ukuran benda dan perspektif mengikuti jarak kamera.
 - Ikuti aturan gaya: ilustrasi memakai lapisan, overlap, shadow, dan detail referensi; gaya stik tetap mengikuti aturan gambar datarnya.
 
+**Registrasi wajib:** komponen dan durasi di `scenes/index.tsx`, lalu id, ukuran, penjelasan, `project`, `vo`, `sfx`, dan props yang relevan di `scenes/manifest.ts`. Id manifest yang tidak punya komposisi tidak dapat dirender. `scene list` membaca manifest, jadi uji bundle dengan `scene stills`.
+
+`PizzaScene` menunjukkan framing landscape/portrait, `UnairFilm` menunjukkan sembilan shot, warp VO, dan kain yang diprecompute. Template `whatif-sim` menunjukkan jalur portrait 3D. Ambil pola yang sesuai dengan brief.
+
 ## 6. VO, musik, SFX
 
-Suara boleh rekaman pengguna, TTS tersedia, atau tanpa VO. Berikan naskah sebagai teks biasa, angka dieja, satu paragraf per shot. Taruh rekaman di `projects/<slug>/public/vo.mp3`; atur `project` dan `vo` pada manifest.
+Suara boleh rekaman pengguna, file TTS yang sudah tersedia, atau tanpa VO. Berikan naskah sebagai teks biasa, angka dieja, satu paragraf per shot. Taruh rekaman di `projects/<slug>/public/vo.mp3`; atur `project` dan `vo` pada manifest.
 
 ```bash
 node bin/mk.mjs vo-cut projects/contoh/public/vo.mp3
@@ -139,6 +175,8 @@ node bin/mk.mjs beats projects/contoh/public/music.mp3 --fps 60
 ```
 
 Gunakan jeda untuk membagi passage, lalu selaraskan durasi, caption, dan beat melalui warp. Sisakan sekitar 0,5 detik sebelum dan 1 detik sesudah passage sebagai titik awal. SFX dapat mendahului visual 2–3 frame; duck musik di bawah VO dengan `bed.duck`. Periksa cue pada still; jelaskan jika audio belum didengar.
+
+Jika hanya VO/SFX yang berubah dan `out/scenes/<Id>/<Id>.mp4` sudah ada, `node bin/mk.mjs scene audio <Id>` merender trek suara dan mengganti audio MP4 itu. Periksa file lama sebelum menjalankannya karena hasilnya ditulis ke jalur yang sama. Perubahan visual tetap membutuhkan `scene video`.
 
 ## 7. Lihat, ukur, perbaiki
 
@@ -154,6 +192,8 @@ Ganti id/frame/region sesuai scene. Buka `out/scenes/<Id>/sheet.jpg`, gambar gri
 
 Cek kecocokan referensi, komposisi, perspektif, kontak tanah, occlusion, pose antara, teks terpotong, caption menutup aksi, area kosong, dan konsistensi antar-shot. Setelah perubahan, render dan buka ulang frame terdampak.
 
+Untuk review yang dapat diulang, catat id scene, nomor frame, gejala yang terlihat, perubahan yang dibuat, dan frame verifikasi. Bedakan temuan yang bisa dinilai dari still (bentuk, komposisi, keterbacaan) dari yang memerlukan MP4 (ritme, transisi, sinkron audio, gerak kontinu). `--grid` dapat dipasangkan dengan `--guides thirds,phi,center,diag,spiral,spiralx` bila komposisinya perlu diukur lebih rinci.
+
 Laporkan hanya yang terlihat. Still tidak membuktikan tempo, smoothness, foot locking, atau kualitas audio. Exit code sukses tidak membuktikan kualitas visual.
 
 ## 8. Render, serahkan, catat
@@ -163,6 +203,8 @@ node bin/mk.mjs scene video NamaScene
 ```
 
 Hasil: `out/scenes/<Id>/<Id>.mp4`. Ambil beberapa frame dari MP4 dan buka untuk mengecek hasil encode. Serahkan file dan kelemahan yang masih terlihat; jangan mengaku menonton/mendengar jika belum.
+
+Untuk proof hanya pada sebagian durasi, set `MK_FRAMES=awal-akhir` saat menjalankan `scene video`; hasilnya mendapat akhiran rentang. `MK_PNG=1` membuat still lossless PNG. `MK_CONCURRENCY` membatasi jumlah tab render. Variabel ini tidak perlu diubah untuk produksi biasa. Jalankan satu render pada satu waktu.
 
 Untuk rasio tambahan, susun ulang framing dan periksa semua shot; jangan mengandalkan crop otomatis. Setelah selesai, isi `packages/core/src/scenes/catatan.ts`: gaya, format, kamera, ritme, durasi, satu pelajaran. `film list/show` membaca catatan itu; gate memperingatkan scene tanpa catatan.
 
@@ -175,15 +217,29 @@ Untuk rasio tambahan, susun ulang framing dan periksa semua shot; jangan mengand
 | Gate menyebut PETA usang | `aset peta`, gate ulang |
 | Teks tertutup / pose janggal | Buka frame penuh/region, perbaiki komposisi atau target IK |
 | Gerak berubah saat seek | Cari state, random tanpa seed, akumulasi waktu; hitung dari frame absolut |
-| GLB/canvas kosong | Cek path, kamera, skala, loading; baca lab terkait sebelum mengubah loader |
+| GLB/canvas kosong | Cek path, kamera, skala, loading, dan still dari scene terkait sebelum mengubah loader |
 | Render lambat | Pastikan satu render, cek kompleksitas dan ukuran aset |
 | Masalah berulang | Simpan frame/error konkret dan cari penyebab sebelum mengulang render sama |
 
 Shared code di `scenes/film.tsx`, `scenes/motion.ts`, `scenes/kit.tsx`, registry aset, atau CLI render perlu
 typecheck dan perbandingan still UnairScene/PizzaScene dengan sheet sebelumnya. Gate tidak menggantikan review visual.
 
+### Perintah yang sering dipakai
+
+| Tujuan | Perintah |
+|---|---|
+Komposisi terdaftar | `node bin/mk.mjs scene list` |
+Stills dan grid | `node bin/mk.mjs scene stills <Id> 120,600 --grid [--region x,y,w,h]` |
+MP4 | `node bin/mk.mjs scene video <Id>` |
+Catatan film | `node bin/mk.mjs film list`, `film show <Id>` |
+Gaya dan pustaka | `node bin/mk.mjs gaya list`, `gaya show <slug>`, `aset find <benda>`, `item find <kata>` |
+Aset baru | `aset prompt`, `aset baru`, `item preview`, `aset peta` |
+VO dan musik | `vo-cut <file.mp3>`, `beats <file.mp3> --fps 60` |
+Pemeriksaan statis | `npm run typecheck`, `node bin/mk.mjs gate --no-render` |
+Smoke render terarah | `node bin/mk.mjs gate --only <Id1>,<Id2>` |
+
 ## Penyimpanan dan laporan akhir
 
-Jangan commit `.env`, `projects/`, `out/`, `node_modules/`, media, atau foto pengguna. Kode aset, metadata, dan URL referensi dicatat sesuai aturan repo. Commit lokal sesuai otorisasi; jangan push atau tambah remote tanpa permintaan. Pertahankan pemberitahuan lisensi kode/aset turunan.
+Jangan commit `.env`, `projects/`, `out/`, `references/`, `legacy-worktrees/`, `node_modules/`, media, atau foto pengguna. Kode aset, metadata, dan URL referensi dicatat sesuai aturan repo. Commit lokal sesuai otorisasi; jangan push atau tambah remote tanpa permintaan. Lisensi repo ada di `LICENSE`; sumber dan lisensi aset eksternal dicatat per aset. Pertahankan identitas pembuat MotionKit pada dokumen skill.
 
 Laporan akhir menyebut file hasil, pemeriksaan yang benar-benar dilakukan, temuan visual, dan batasan tersisa. Produksi selesai ketika hasil sesuai brief dan pemeriksaan dilakukan, bukan hanya saat MP4 terbentuk.
