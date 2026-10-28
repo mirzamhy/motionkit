@@ -111,6 +111,12 @@ Tokoh berkepala besar, kakinya hanya 190 satuan (≈ 0,58 m). Kursi dan meja uku
   mulai lagi dari bingkai lebar.
 - **Warna mengikuti makna.** Koran dan arsip berwarna sepia. Setelah transisi masuk ke peristiwa (Kongres Pemuda),
   warna kembali penuh, karena yang ditampilkan adalah kejadiannya, bukan arsipnya.
+- **Tempo: beri napas, terutama di akhir.** Shot 1 detik di penutup dan layar hitam 2 detik dinilai terlalu cepat.
+  Shot penutup minimal 2–2,5 detik. Beri jeda ±1 detik sebelum kalimat terakhir yang penting, dan tahan kartu
+  penutup sekitar 5 detik (tanpa warp, supaya teks muncul seperti biasa lalu ditahan). Kartu montase cepat minimal
+  ±1 detik.
+- **Dialog yang mengulang narasi dibuang.** Bisikan tokoh yang hanya mengulang kalimat narator ("Satu tanah air…")
+  dihapus pengguna. Tokoh bicara hanya bila menambah sesuatu.
 - **Potongan `snap`** (4 frame, `cuts.tsx`) untuk montase cepat seperti kartu teks Pembukaan UUD dan gambar bukti.
   Dissolve tetap jadi bawaan.
 
@@ -172,3 +178,5 @@ Tokoh berkepala besar, kakinya hanya 190 satuan (≈ 0,58 m). Kursi dan meja uku
 | Sisa teks film sumber di tepi footage | crop kurang ketat | potong ulang, cek tepi |
 | Portrait pecah | `tall()` pada film 16:9 jadi | pola `Reels.tsx` |
 | Naskah VO dalam tabel sulit di-generate | format | satu blok per suara, Claude yang memotong |
+| Tempo terlalu cepat, terutama di akhir | shot penutup 1 detik, kartu hitam 2 detik | penutup ≥ 2 detik per shot, jeda sebelum kalimat akhir, kartu ±5 detik |
+| Bisikan tokoh terasa berlebihan | dialog mengulang narasi | buang, tokoh bicara hanya bila menambah |
