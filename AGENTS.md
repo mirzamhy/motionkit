@@ -18,6 +18,14 @@ render the video. Two finished films are the quality bar and the pattern to copy
 - `PizzaScene.tsx` — one 14 s scene, three camera set-ups, landscape and portrait.
 - `UnairFilm.tsx` + `UnairShotsA/B.tsx` + `UnairScene.tsx` — a 116 s nine-shot film cut to a recorded voice-over.
 
+For a 3D film (`<ThreeCanvas>` + `<Aset3D>`), also read [docs/scenes/3D.md](docs/scenes/3D.md): axes, camera set-ups,
+three depth layers and the per-still checklist. `PertempuranJembatanMerah.tsx` is its pattern film (local copy only: project code is not kept in the repo).
+
+For a 2D film with characters, rooms or buildings, also read [docs/scenes/2D-TOKOH.md](docs/scenes/2D-TOKOH.md):
+the faceless rule, the character rig, furniture sized to the rig, solid buildings, transitions, multi-voice VO and
+the Reels version, with every correction the user has already made. Check its table on every sheet.
+Only the way of working goes into the repo: never commit or push a film's own code or assets unless the user asks.
+
 Read [docs/scenes/CRAFT.md](docs/scenes/CRAFT.md) before drawing anything and
 [docs/scenes/KIT.md](docs/scenes/KIT.md) before writing a component that may already exist (`mk kit find <words>`
 searches it).

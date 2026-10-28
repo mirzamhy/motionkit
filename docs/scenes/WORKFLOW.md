@@ -3,6 +3,8 @@
 This is the procedure that produced the two example films. Follow the order. Each step has a gate; do not pass a
 gate by assumption.
 
+For a film built from 3D assets (`<Aset3D>`), read [3D.md](3D.md) as well; it replaces the SVG-specific parts of the craft steps.
+
 ## 0. Set up
 
 ```bash
@@ -114,11 +116,18 @@ Works with any voice: the user's own recording, any TTS, or none (the captions c
    captions to the sentence times, and add a `warp` so each drawn event lands on its word.
 5. Render stills at the cue frames and check the event is happening there. You cannot hear the result; say so.
 
+Several voices (narrator, characters): give one block of text per voice, let the user generate each in one go,
+then cut them yourself and join them into one file. The method (and the `retime` helper of the local Janji copy) is in
+[2D-TOKOH.md](2D-TOKOH.md#7-vo-multi-suara-elevenlabs-atau-rekaman-lain).
+
 ## 10. Portrait
 
 Same scenes, different framing: one subject per shot, about 1.7× closer, captions larger and higher. Pass a
 `portrait` prop and adjust camera and layout per shot (see `PizzaScene.tsx`). Re-check every shot's stills; things
 fall out of frame.
+
+For a finished 16:9 film, do not switch it to portrait. Make a Reels version that shows each scene through a square
+window instead (the pattern is described in [2D-TOKOH.md](2D-TOKOH.md#8-versi-reels-916)).
 
 ## What it costs
 

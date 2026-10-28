@@ -80,6 +80,9 @@ From `haidrrrry/claude-remotion-skill` (MIT), kept where it fits scene mode:
 | Labels cut off / hidden / overlapping | never opened the still | open the still |
 | Words in a row ran into each other | fixed 300 px step for 110 px type | centre each word on its own slot, sized from the longest word |
 
+Corrections from 2D films with characters, rooms and buildings (rig, furniture, depth order, solid houses, match
+cuts) are in the table at the end of [2D-TOKOH.md](2D-TOKOH.md).
+
 ## Checklist for every sheet
 
 1. Is each real object recognisable against its reference photo?
