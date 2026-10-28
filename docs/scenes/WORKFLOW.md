@@ -120,6 +120,23 @@ Several voices (narrator, characters): give one block of text per voice, let the
 then cut them yourself and join them into one file. The method (and the `retime` helper of the local Janji copy) is in
 [2D-TOKOH.md](2D-TOKOH.md#7-vo-multi-suara-elevenlabs-atau-rekaman-lain).
 
+## 9b. Sound effects and ambience
+
+A film without room tone feels empty, even under a voice-over. Add sound after the VO timing is fixed.
+
+1. Give the user a list per scene: file name, length in seconds, and an English prompt for a sound-effect generator
+   (ElevenLabs Sound Effects works). Melodies such as an anthem cannot be generated; ask for a licensed recording.
+2. When the files arrive, match each one to a shot from its name and length. Say which files you could not place
+   and which placements are guesses (a file named only "realistic sound effect" is a guess).
+3. Convert to `projects/<slug>/public/sfx/<name>.wav` with one loudness for all:
+   `ffmpeg -i in.mp3 -af loudnorm=I=-20:TP=-2 -ar 48000 -ac 2 out.wav`.
+4. Put each sound in its shot's `sfx` (`at` in shot frames, after any retime) and pass `sfx` to `Film`.
+   - Ambience bed: `loop`, `len` = the frames it should cover (it may run across several shots), `vol` 0.08–0.2,
+     fade in 30 and out 40 frames.
+   - One-shot hit: `vol` 0.25–0.5, `at` 2–3 frames before the drawn event (a book shutting, tape pulled, a cut).
+   - Keep beds low under the voice; the film has no ducking for `sfx`, only for `bed`.
+5. Measure the mix (`ffmpeg -af ebur128`) and tell the user to listen: you cannot hear it.
+
 ## 10. Portrait
 
 Same scenes, different framing: one subject per shot, about 1.7× closer, captions larger and higher. Pass a

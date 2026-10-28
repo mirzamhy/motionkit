@@ -25,3 +25,7 @@ sequence of purpose-built shots composed with `Film`. Reusable objects live in t
 A film is done when its facts and references are recorded, script and storyboard are approved, the proof shot is
 approved, every shot has been opened and judged with measurement overlays, the final video is rendered and sampled,
 and the film note is added to `packages/core/src/scenes/catatan.ts`.
+
+Every correction the user made during the film is written into the docs (`docs/scenes/CRAFT.md` or the guide for
+that kind of film, such as `2D-TOKOH.md`), so the next film does not repeat it. Only that way of working is
+committed; the film's own code and media stay local unless the user asks.

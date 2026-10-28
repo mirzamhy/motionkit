@@ -17,7 +17,8 @@ Baca `AGENTS.md` aktual sebelum bekerja. Semua contoh perintah dijalankan dari r
 
 **Harus bisa menjalankan shell dan membuka JPEG/PNG lokal.** Jika tidak bisa melihat gambar, berhenti sebelum membangun video dan jelaskan keterbatasannya. Render sukses saja tidak cukup untuk menilai hasil.
 
-Semua brief memakai **scene mode**. Baca `docs/scenes/WORKFLOW.md`, `CRAFT.md`, dan `KIT.md`. Promo produk,
+Semua brief memakai **scene mode**. Baca `docs/scenes/WORKFLOW.md`, `CRAFT.md`, dan `KIT.md`. Film 2D bertokoh juga
+membaca `docs/scenes/2D-TOKOH.md`, film 3D membaca `docs/scenes/3D.md`. Peta semua dokumen: `docs/README.md`. Promo produk,
 angka, UI, klaim, dan tipografi juga dibangun sebagai shot khusus agar kamera, staging, serta ritmenya tetap sinematik.
 
 ### Kebutuhan lokal

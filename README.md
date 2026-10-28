@@ -28,7 +28,7 @@ Jalankan perintah dari root repo. `npm run typecheck` memeriksa TypeScript. Medi
 5. **Review setiap shot.** Periksa contact sheet, frame penuh, bagian kecil lewat `--region`, dan beberapa frame di tengah aksi. Render ulang bagian yang berubah.
 6. **Render film.** Jalankan satu render pada satu waktu, periksa sampel MP4, lalu catat gaya, kamera, ritme, aset, dan pelajaran film di `scenes/catatan.ts`.
 
-Panduan rinci: [WORKFLOW.md](docs/scenes/WORKFLOW.md), [CRAFT.md](docs/scenes/CRAFT.md), [ITEMS.md](docs/scenes/ITEMS.md), dan [KIT.md](docs/scenes/KIT.md). `PizzaScene` adalah contoh 14 detik dengan tiga setup kamera; `UnairScene` adalah contoh film sembilan shot dengan voice-over.
+Panduan rinci: [WORKFLOW.md](docs/scenes/WORKFLOW.md), [CRAFT.md](docs/scenes/CRAFT.md), [ITEMS.md](docs/scenes/ITEMS.md), dan [KIT.md](docs/scenes/KIT.md). Film 2D dengan tokoh, ruangan, atau bangunan memakai [2D-TOKOH.md](docs/scenes/2D-TOKOH.md); film 3D memakai [3D.md](docs/scenes/3D.md). Peta semua dokumen ada di [docs/README.md](docs/README.md). `PizzaScene` adalah contoh 14 detik dengan tiga setup kamera; `UnairScene` adalah contoh film sembilan shot dengan voice-over.
 
 ### Brief sampai treatment
 
@@ -72,7 +72,13 @@ node bin/mk.mjs scene video PizzaScene
 
 Still tersimpan di `out/scenes/<Id>/f00000.jpg`; beberapa frame juga menghasilkan `sheet.jpg`. Video berada di `out/scenes/<Id>/<Id>.mp4`. `--grid` menggambar garis komposisi dan `--region` memperbesar bagian yang dinilai. Set `MK_PNG=1` untuk still PNG, `MK_FRAMES=awal-akhir` untuk rentang video, atau `MK_CONCURRENCY` untuk membatasi tab render. `scene audio <Id>` mengganti audio pada MP4 yang sudah ada.
 
+### Suara
+
 Voice-over ditempatkan di `public/` proyek dan dicatat pada `manifest.ts`. `mk vo-cut <file.mp3>` membantu menemukan jeda rekaman; `mk beats <musik>` membantu melihat onset musik. Film dapat dibuat tanpa VO.
+
+- **Beberapa suara** (narator, tokoh): naskah ditulis satu blok per suara, pengguna generate sekali per suara, lalu agen memotong per kalimat dan menggabungkannya jadi satu file. Lihat [2D-TOKOH.md §7](docs/scenes/2D-TOKOH.md#7-vo-multi-suara-elevenlabs-atau-rekaman-lain).
+- **Efek dan suara latar**: daftar prompt per adegan, file disamakan ke -20 LUFS di `projects/<slug>/public/sfx/`, lalu dipasang di `sfx` tiap shot. Lihat [WORKFLOW.md §9b](docs/scenes/WORKFLOW.md#9b-sound-effects-and-ambience).
+- **Versi Reels** dari film 16:9: jendela persegi per shot, bukan mode portrait. Lihat [2D-TOKOH.md §8](docs/scenes/2D-TOKOH.md#8-versi-reels-916).
 
 ## Struktur repo
 
@@ -87,6 +93,10 @@ Voice-over ditempatkan di `public/` proyek dan dicatat pada `manifest.ts`. `mk v
 | `projects/` | Naskah, fakta, foto acuan, VO, dan media film lokal; diabaikan Git |
 | `out/` | MP4, still, sheet, dan preview lokal; diabaikan Git |
 | `references/`, `legacy-worktrees/` | Arsip riset lokal; diabaikan Git |
+
+### Apa yang masuk repo
+
+Repo menyimpan mesin (runner, pustaka aset, CLI) dan cara kerja (`AGENTS.md`, `docs/`, `skill/`). Kode dan media khusus satu film, misalnya adegan, VO, footage, dan gambar kiriman pengguna, tetap di salinan lokal dan tidak di-commit kecuali pengguna memintanya. Pelajaran dari film itu masuk ke dokumen.
 
 Clone GitHub baru perlu `npm ci` serta media proyek sendiri untuk merender ulang film yang memakai VO, model, atau tekstur khusus.
 
