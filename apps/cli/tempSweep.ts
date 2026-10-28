@@ -11,7 +11,7 @@ import { join } from 'node:path';
 
 const PREFIXES = ['remotion-webpack-bundle-', 'react-motion-render', 'remotion-v'];
 /** a render that started longer ago than this is not running any more */
-const MAX_AGE_MS = 12 * 60 * 60 * 1000;
+const MAX_AGE_MS = 2 * 60 * 60 * 1000;
 
 const sizeOf = (dir: string): number => {
   let n = 0;

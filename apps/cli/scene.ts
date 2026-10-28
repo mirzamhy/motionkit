@@ -1,6 +1,6 @@
 ﻿// Scene mode: render hand-built scene compositions (packages/core/src/scenes) and cut a voice-over into passages.
 import { execFileSync, spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, renameSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, renameSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { renderMedia, renderStill, selectComposition } from '@remotion/renderer';
 import { SCENES } from '../../packages/core/src/scenes/manifest';
@@ -89,6 +89,15 @@ export const sceneVideo = async (id: string) => {
       if (pct !== last) log(`  ${(last = pct)}%`);
     },
   });
+  // After a full render the review stills of this scene (fNNNNN.jpg/png, sheet.jpg) have done their job and can be
+  // made again from the code at any time; remove them and this render's temp bundle to keep the disk light.
+  // Only out/scenes/<Id>/ stills go: the MP4, the scene code and projects/<slug>/public (footage, VO, SFX) stay.
+  if (!rentang && process.env.MK_KEEP_STILLS !== '1') {
+    const stills = readdirSync(outDir).filter((n) => /^f\d{5}\.(jpg|png)$/.test(n) || n === 'sheet.jpg');
+    stills.forEach((n) => rmSync(join(outDir, n), { force: true }));
+    if (stills.length) log(`  · removed ${stills.length} review stills (MK_KEEP_STILLS=1 keeps them)`);
+  }
+  forgetBundle(setupPublic(id));
   log(`  ${(composition.durationInFrames / composition.fps).toFixed(1)} s â†’ ${output}`);
   return output;
 };

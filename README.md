@@ -72,7 +72,7 @@ node bin/mk.mjs scene video PizzaScene
 
 Still tersimpan di `out/scenes/<Id>/f00000.jpg`; beberapa frame juga menghasilkan `sheet.jpg`. Video berada di `out/scenes/<Id>/<Id>.mp4`. `--grid` menggambar garis komposisi dan `--region` memperbesar bagian yang dinilai. Set `MK_PNG=1` untuk still PNG, `MK_FRAMES=awal-akhir` untuk rentang video, atau `MK_CONCURRENCY` untuk membatasi tab render. `scene audio <Id>` mengganti audio pada MP4 yang sudah ada.
 
-Remotion menyimpan salinan folder `public` dan frame render di folder Temp sistem. MotionKit menghapus salinan milik render yang sedang berjalan saat render selesai atau dihentikan dengan Ctrl+C, dan setiap kali render dimulai, folder `remotion-webpack-bundle-*`, `react-motion-render*`, dan `remotion-v*-assets*` yang lebih tua dari 12 jam ikut dibersihkan. Yang dihapus hanya salinan di Temp; file di `projects/` dan still di `out/` tidak disentuh. `MK_KEEP_TEMP=1` mematikan pembersihan ini.
+Remotion menyimpan salinan folder `public` dan frame render di folder Temp sistem. MotionKit menghapus salinan milik render yang sedang berjalan saat render selesai atau dihentikan dengan Ctrl+C, dan setiap kali render dimulai, folder `remotion-webpack-bundle-*`, `react-motion-render*`, dan `remotion-v*-assets*` yang lebih tua dari 2 jam ikut dibersihkan. Yang dihapus hanya salinan di Temp; file di `projects/` (footage, VO, SFX) tidak pernah disentuh. `MK_KEEP_TEMP=1` mematikan pembersihan ini. Setelah render video penuh, still review adegan itu (`fNNNNN.jpg`, `sheet.jpg`) di `out/scenes/<Id>/` juga dihapus karena bisa dibuat ulang; `MK_KEEP_STILLS=1` menyimpannya.
 
 ### Suara
 
