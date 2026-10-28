@@ -1,6 +1,6 @@
 // The looks MotionKit can shoot in. One entry per look; the library folder holds that look's assets
 // (`mk gaya list`, `mk gaya show <slug>`). Naming: an asset is `<benda>-<gaya>`. See docs/superpowers/specs/2026-10-27-aset-per-gaya-design.md.
-export type GayaSlug = 'stik' | 'poly' | 'poly3d' | 'model3d' | 'flanel' | 'ilustrasi';
+export type GayaSlug = 'stik' | 'poly' | 'poly3d' | 'model3d' | 'flanel' | 'ilustrasi' | 'tokoh';
 
 export type Gaya = {
   slug: GayaSlug;
@@ -21,6 +21,7 @@ export const GAYA: Gaya[] = [
   { slug: 'poly', nama: 'Low-poly 2D', dimensi: '2d', ringkas: 'Segitiga datar berwarna di SVG. Belum ada contoh.', folder: 'poly', contoh: [] },
   { slug: 'model3d', nama: 'Model GLB realistis', dimensi: '3d', ringkas: 'Model glTF (Poly Haven dsb.) dibungkus Item3D. Belum ada contoh.', folder: 'model3d', contoh: [] },
   { slug: 'flanel', nama: 'Kain flanel 3D (Jajan Dulu)', dimensi: '3d', ringkas: 'Tokoh dan benda dari kain flanel, rig badan di packages/three/src/jajan.', folder: 'flanel', contoh: ['TeaserTudung', 'TeaserLapak'] },
+  { slug: 'tokoh', nama: 'Tokoh 2D tanpa wajah', dimensi: '2d', ringkas: 'Tokoh vektor berkepala besar tanpa mata dan hidung (hanya mulut) dengan rig sendi, ruangan dan bangunan solid di kamera 3D.', folder: 'tokoh-2d', contoh: [], resep: '../../../docs/scenes/2D-TOKOH.md' },
   { slug: 'ilustrasi', nama: 'Ilustrasi SVG berlapis', dimensi: '2d', ringkas: 'Gambar SVG bersumber foto acuan: pelabuhan, kampus, pasar.', folder: 'ilustrasi', contoh: ['PelabuhanIlustrasi', 'UnairScene'] },
 ];
 

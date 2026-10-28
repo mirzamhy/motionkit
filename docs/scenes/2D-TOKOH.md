@@ -4,11 +4,12 @@ Dokumen ini dikumpulkan dari evaluasi pengguna selama pembuatan *Janji yang Belu
 `packages/core/src/scenes/janji/`). Baca sebelum membuat film 2D dengan tokoh, ruangan, atau bangunan. Bagian
 "Kesalahan yang sudah terjadi" adalah daftar periksa: cek tiap butir di setiap lembar still.
 
-Kode project tidak disimpan di repo. Repo hanya menyimpan cara kerjanya (dokumen ini). Kalau salinan lokal
-`packages/core/src/scenes/janji/` ada, pakai sebagai contoh. Kalau tidak ada, bangun ulang dari aturan di bawah;
-angka rig dan perabot di sini sudah cukup untuk itu.
+Alat bantunya ada di pustaka (`packages/core/src/library/tokoh-2d/`, gaya `tokoh`, lihat KIT.md): rig, preset
+tokoh, kamera 3D, balok solid, rumah, perabot. Rig adalah alat bantu; tokoh tiap film dibuat dari preset lalu
+disesuaikan dengan kebutuhan film. Aset yang dibangun untuk film masuk pustaka juga (orang, benda, rumah), supaya
+film berikutnya mulai dari sana.
 
-Kode acuan (salinan lokal):
+Kode adegan film tidak disimpan di repo. Contoh pemakaian ada di salinan lokal (bila ada):
 - `janji/tokoh.ts`: rig tokoh (`figure`, `arm`, `leg`, `pelvis`, `RIG`, `LEGPOSE`, `walkLegs`).
 - `janji/kamera.ts`: kamera 3D sederhana untuk ruangan 2D (`makeCam`: `pj`, `quad`, `poly`, `line3`, `put`).
 - `janji/Adegan1.tsx`: kelas dengan perabot yang diukur dari rig.

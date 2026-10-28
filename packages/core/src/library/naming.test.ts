@@ -8,8 +8,8 @@ import type { ItemMeta } from './types';
 
 const base: ItemMeta = { id: 'bus-poly3d', name: 'Bus', category: 'kendaraan-darat', benda: 'bus', gaya: 'poly3d', tags: [], size: [1, 1, 1], refs: 'x' };
 
-test('six gaya with unique slugs', () => {
-  assert.deepEqual(GAYA.map((g) => g.slug), ['stik', 'poly3d', 'poly', 'model3d', 'flanel', 'ilustrasi']);
+test('seven gaya with unique slugs', () => {
+  assert.deepEqual(GAYA.map((g) => g.slug), ['stik', 'poly3d', 'poly', 'model3d', 'flanel', 'tokoh', 'ilustrasi']);
   assert.equal(gayaBySlug('stik')?.nama, 'Stik Polos');
   assert.equal(gayaBySlug('nope'), undefined);
 });

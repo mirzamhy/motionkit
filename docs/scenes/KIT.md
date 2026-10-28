@@ -81,6 +81,36 @@ Rigged characters facing the camera or side-on (blink, typing arms by two-bone I
 `PizzaScene.tsx` (`Room`), and seated pupils and a seated teacher in `UnairShotsA.tsx` (`Pupil`, `Classroom`).
 Copy and adapt; they are not generic yet.
 
+## Faceless 2D characters, rooms and solid buildings — `library/tokoh-2d/` (gaya `tokoh`)
+
+The rig is a helper, not a cast: each film builds its own people from it.
+
+```ts
+import { art, figure } from '../library/tokoh-2d/rig';
+import { TOKOH } from '../library/tokoh-2d/preset';
+import { makeCam, kotak, stripsZ, urutZ } from '../library/tokoh-2d/kamera';
+import { mejaMurid, kursiMurid, rumah, SEAT_H } from '../library/tokoh-2d/perabot';
+
+const K = makeCam({ x: 0, y: 1.4, z: 6, pitch: 0.1, F: 1200 });           // metres, looks along -z
+const kid = figure({ ...TOKOH.muridSmaPutri, view: 'back', pose: 'sit' }); // a preset, then your changes
+const svg = art(() => urutZ(rows, (r) => r.z).map((r) => K.put(r.x, 0, r.z, 520, kid)).join(''));
+```
+
+- `figure(o)`: faceless rig (mouth only). `view` front/side/back/q, `pose` stand/sit, `arms`, `legA`, `part`
+  legs/body/all for putting a chair between legs and body, `holdL`/`holdR` for props. Units: 520 = 1.6 m.
+- `TOKOH`: presets — `muridSma`, `muridSmaPutri`, `guru`, `ibu`, `remaja`, `dokter`, `pemuda1928`, `pemuda1928Jawa`,
+  `pemudi1928`, `pemudi1928Selendang`, `polisiKolonial`. Spread one and change what the film needs.
+- `makeCam` → `pj`, `quad`, `poly`, `line3`, `put` (a figure at a world point), `onZ` (a flat picture on a wall).
+- `kotak(K, x0, x1, z0, z1, h, colour)`: a closed box; only the faces turned to the camera, far to near.
+- `rumah(K, {...})`: a solid gabled house (box body, gable ends, two roof planes, door, windows).
+- `stripsZ(f, z0, z1)`: cut long floors and walls into depth strips so nothing vanishes behind the camera.
+- `urutZ(items, z)`: sort people and furniture far to near before drawing.
+- Furniture is sized to the rig, not to real chairs: `SEAT_H`, `DESK_H`, `mejaMurid`, `kursiMurid` (two layers).
+- Library items (`mk item find tokoh`): every preset as `<benda>-tokoh` with variants depan, tiga-perempat,
+  samping, belakang, duduk; `meja-murid-tokoh`, `kursi-murid-tokoh`, `kardus-tokoh`, `rumah-tokoh`.
+
+Rules and every correction the user made: [2D-TOKOH.md](2D-TOKOH.md).
+
 ## Flags and cloth
 
 | Component | Props | Notes |
